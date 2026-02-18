@@ -121,12 +121,24 @@ body:not(.past-page-1) .nav-fixed {
 }
 
 /* Right column: fixed "window"; content strip moves with scroll via JS */
+/* Scale the whole block as one (all headlines, marks, text, nav inside scale together) so
+   spacing stays correct. Stop horizontal movement when content left edge would pass 50vw:
+   from that point only scale down (origin top-right). Reference width 1000px includes
+   page-1 headlines (intro + marksf group) that extend left with translate. */
 .right-window {
+  --margin-right: clamp(1.5rem, 5vw, 4rem);
+  --available-width: calc(50vw - var(--margin-right));
+  /* Divide length by length so result is unitless (scale() needs a number, not 0.5px) */
+  --scale-w: min(1, var(--available-width) / 1000px);
+  --scale-h: min(1, 100vh / 900px);
+  --scale: max(0.4, min(var(--scale-w), var(--scale-h)));
   position: fixed;
   inset: 0;
   z-index: 2;
   overflow: hidden;
   pointer-events: none;
+  transform-origin: top right;
+  transform: scale(var(--scale));
 }
 
 .right-window .content-strip {
