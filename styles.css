@@ -284,7 +284,7 @@ body:not(.past-page-1) .nav-fixed {
   position: absolute;
   left: 0;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(calc(-50% + 50px));
   max-width: 100%;
   max-height: 100%;
   width: auto;
@@ -333,7 +333,7 @@ body.past-page-2 .handholding-phone-pg3 {
 
 body.past-page-3 .handholding-hand {
   opacity: 0;
-  transform: translateY(-50%) scale(0.6);
+  transform: translateY(calc(-50% + 50px)) scale(0.6);
 }
 
 body.past-page-3 .handholding-phone-pg3 {
@@ -375,6 +375,7 @@ body.page-6-active .video-wrap {
   height: auto;
   object-fit: contain;
   object-position: left center;
+  transform: translateY(50px);
 }
 
 /* Group: anchor to same right/top as focus; keeps marks + focus locked together on resize */
@@ -382,7 +383,7 @@ body.page-6-active .video-wrap {
   position: absolute;
   right: clamp(1.5rem, 5vw, 4rem);
   top: 50%;
-  transform: translate(0, 300px) translateY(-50%);
+  transform: translate(0, 200px) translateY(-50%);
   display: flex;
   flex-direction: row-reverse;
   align-items: center;
@@ -473,7 +474,7 @@ body.page-6-active .video-wrap {
 
 .headline-block.headline-focus {
   color: #FFBC00;
-  transform: translate(-100px, calc(-50% + 300px));
+  transform: translate(-100px, calc(-50% + 200px));
 }
 
 /* When focus is inside the group, positioning comes from the group */
@@ -489,7 +490,7 @@ body.page-6-active .video-wrap {
   position: absolute;
   right: clamp(1.5rem, 5vw, 4rem);
   top: 50%;
-  transform: translateY(calc(-50% + 150px));
+  transform: translateY(calc(-50% + 50px));
   margin: 0;
   max-width: min(800px, 90vw);
   font-family: "Space Grotesk", sans-serif;
@@ -506,7 +507,7 @@ body.page-6-active .video-wrap {
   position: absolute;
   right: clamp(1.5rem, 5vw, 4rem);
   top: 50%;
-  transform: translateY(calc(-50% + 250px));
+  transform: translateY(calc(-50% + 150px));
   margin: 0;
   max-width: min(800px, 90vw);
   font-family: "Space Grotesk", sans-serif;
@@ -537,12 +538,12 @@ body.page-6-active .video-wrap {
 
 /* Page 4: text block 10px lower than default */
 .page-4 .page-text-block {
-  transform: translateY(calc(-50% + 260px));
+  transform: translateY(calc(-50% + 160px));
 }
 
 /* Page 5: text block 25px higher than page 4 */
 .page-5 .page-text-block {
-  transform: translateY(calc(-50% + 225px));
+  transform: translateY(calc(-50% + 125px));
 }
 
 /* Page 6: contact stays in right section */
