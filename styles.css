@@ -1,0 +1,627 @@
+html {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+/* Single scroll container: full viewport, we drive strip from its scrollTop */
+.scroll-viewport {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Each page is 100vh (snap is done in JS so wheel scrolling isn't blocked) */
+.scroll-page {
+  height: 100vh;
+  min-height: 100vh;
+}
+
+/* Left column: gradient + image, fixed (stays in place while scrolling) */
+.left-fixed {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.left-fixed .gradient-bg {
+  width: 100%;
+  height: 100%;
+}
+
+.left-fixed .handholding-wrap {
+  pointer-events: none;
+}
+
+/* Top bar: logo top right + hover zone for nav on pages 2–6 */
+.top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 88px;
+  z-index: 30;
+  pointer-events: none;
+}
+
+.top-bar > * {
+  pointer-events: auto;
+}
+
+.top-hover-zone {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 88px;
+}
+
+.logo-wrap {
+  position: absolute;
+  top: clamp(0.75rem, 2.5vh, 1.5rem);
+  right: clamp(1rem, 3vw, 2rem);
+  left: auto;
+  z-index: 25;
+  pointer-events: none;
+}
+
+.logo-img {
+  display: block;
+  height: clamp(28px, 4vh, 40px);
+  width: auto;
+  object-fit: contain;
+}
+
+/* Fixed nav: visible on hover when past page 1, same position as page 1 (top middle) */
+.nav-fixed {
+  position: absolute;
+  top: calc(clamp(1.5rem, 4vh, 2.5rem) - 15px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 1.75rem;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+body.past-page-1 .top-hover-zone:hover .nav-fixed {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+body:not(.past-page-1) .nav-fixed {
+  display: none;
+}
+
+.nav-fixed-link {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 400;
+  font-size: 22px;
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+}
+
+.nav-fixed-link:hover {
+  color: #FFBC00;
+}
+
+.nav-fixed-home {
+  font-weight: 700;
+  color: #FFBC00;
+}
+
+/* Right column: fixed "window"; content strip moves with scroll via JS */
+.right-window {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.right-window .content-strip {
+  pointer-events: auto;
+}
+
+.content-strip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 600vh;
+  will-change: transform;
+}
+
+/* Each page is one viewport height */
+.page {
+  min-height: 100vh;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.gradient-bg {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.gradient-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Animated layers overflow slightly so drift never exposes edges */
+.gradient-1,
+.gradient-2,
+.gradient-3 {
+  width: 120%;
+  height: 120%;
+  left: -10%;
+  top: -10%;
+}
+
+/* Slow drift + breath — visible but calm, each layer on its own rhythm */
+@keyframes drift-breathe-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(6%, -4%) scale(1.04); }
+  50% { transform: translate(-3%, 5%) scale(0.96); }
+  75% { transform: translate(-4%, -2%) scale(1.02); }
+}
+@keyframes drift-breathe-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-5%, -4%) scale(1.03); }
+  66% { transform: translate(4%, 5%) scale(0.97); }
+}
+@keyframes drift-breathe-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(4%, -6%) scale(1.05); }
+}
+
+/* Base (back) */
+.gradient-base {
+  z-index: 0;
+  background: linear-gradient(
+    180deg,
+    #2b0a55 0%,
+    #12002b 100%
+  );
+}
+
+/* Lavender glow — bottom-left, very gradual falloff */
+.gradient-1 {
+  z-index: 1;
+  animation: drift-breathe-1 22s ease-in-out infinite;
+  background: radial-gradient(
+    1200px 1200px at 10% 90%,
+    #cfc2f3 0%,
+    rgba(207, 194, 243, 0.85) 20%,
+    rgba(207, 194, 243, 0.5) 40%,
+    rgba(207, 194, 243, 0.25) 60%,
+    rgba(207, 194, 243, 0.08) 80%,
+    rgba(207, 194, 243, 0.02) 92%,
+    transparent 100%
+  );
+}
+
+/* Mid purple — center-left, very gradual falloff */
+.gradient-2 {
+  z-index: 2;
+  animation: drift-breathe-2 26s ease-in-out infinite;
+  background: radial-gradient(
+    1300px 1300px at 25% 30%,
+    #4b2f8a 0%,
+    rgba(75, 47, 138, 0.9) 25%,
+    rgba(75, 47, 138, 0.55) 45%,
+    rgba(75, 47, 138, 0.28) 65%,
+    rgba(75, 47, 138, 0.1) 82%,
+    rgba(75, 47, 138, 0.02) 95%,
+    transparent 100%
+  );
+}
+
+/* Deep right-side — large, very gradual falloff */
+.gradient-3 {
+  z-index: 3;
+  animation: drift-breathe-3 30s ease-in-out infinite;
+  background: radial-gradient(
+    1600px 1600px at 85% 50%,
+    #12002b 0%,
+    rgba(18, 0, 43, 0.95) 25%,
+    rgba(18, 0, 43, 0.6) 50%,
+    rgba(18, 0, 43, 0.3) 70%,
+    rgba(18, 0, 43, 0.12) 85%,
+    rgba(18, 0, 43, 0.03) 96%,
+    transparent 100%
+  );
+}
+
+/* Stacked images — bottom-left, same spot, phone then hand on top */
+.handholding-wrap {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.handholding-img {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  object-position: left bottom;
+  display: block;
+}
+
+.handholding-phone {
+  z-index: 2;
+  transition: opacity 0.4s ease;
+}
+
+.handholding-phone-pg2,
+.handholding-phone-pg3 {
+  opacity: 0;
+  pointer-events: none;
+}
+
+body.past-page-1 .handholding-phone-pg1 {
+  opacity: 0;
+  pointer-events: none;
+}
+
+body.past-page-1 .handholding-phone-pg2 {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+body.past-page-2 .handholding-phone-pg2 {
+  opacity: 0;
+  pointer-events: none;
+}
+
+body.past-page-2 .handholding-phone-pg3 {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.handholding-hand {
+  z-index: 1;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  transform-origin: left bottom;
+}
+
+body.past-page-3 .handholding-hand {
+  opacity: 0;
+  transform: scale(0.6);
+}
+
+body.past-page-3 .handholding-phone-pg3 {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Video on pages 4 & 5: same spot as phone, hidden on page 6 */
+.video-wrap {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 11;
+  pointer-events: none;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+body.past-page-3:not(.page-6-active) .video-wrap {
+  opacity: 1;
+  visibility: visible;
+}
+
+body.page-6-active .video-wrap {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.video-pg45 {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  object-position: left bottom;
+}
+
+/* Page 1: top nav — Home bold & yellow */
+.page1-nav {
+  position: absolute;
+  top: calc(clamp(1.5rem, 4vh, 2.5rem) - 15px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 1.75rem;
+  z-index: 20;
+}
+
+.page1-nav-link {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 400;
+  font-size: 22px;
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+}
+
+.page1-nav-link:hover {
+  color: #FFBC00;
+}
+
+.page1-nav-home {
+  font-weight: 700;
+  color: #FFBC00;
+}
+
+/* Group: anchor to same right/top as focus; keeps marks + focus locked together on resize */
+.headline-marksf-group {
+  position: absolute;
+  right: clamp(1.5rem, 5vw, 4rem);
+  top: 50%;
+  transform: translate(0, 300px) translateY(-50%);
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: 216px;
+  z-index: 15;
+  padding-right: 0;
+  box-sizing: border-box;
+}
+
+.marksf-cell {
+  position: relative;
+  width: 0;
+  height: 0;
+  flex-shrink: 0;
+  transform: translate(-450px, -60px);
+}
+
+/* Original marksf — locked to focus (gap 216px), scale only */
+.marksf-wrap.marksf-original {
+  position: absolute;
+  right: 0;
+  top: 0;
+  transform: translate(30px, -8px) scale(0.028125);
+  transform-origin: right top;
+  z-index: 12;
+  pointer-events: none;
+}
+
+.marksf-img {
+  display: block;
+  max-width: 90vw;
+  max-height: 70vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Duplicate marksf — locked to original (355px right, 125px down) */
+.marksf-wrap.marksf-flipped {
+  position: absolute;
+  left: 355px;
+  top: 125px;
+  transform: scale(-0.028125);
+  transform-origin: left top;
+  z-index: 12;
+  pointer-events: none;
+}
+
+/* Page 2, 3, 4 & 5: same mark positions */
+.page-2 .marksf-wrap.marksf-original,
+.page-3 .marksf-wrap.marksf-original,
+.page-4 .marksf-wrap.marksf-original,
+.page-5 .marksf-wrap.marksf-original {
+  transform: translate(-370px, -258px) scale(0.028125);
+}
+
+.page-2 .marksf-wrap.marksf-flipped,
+.page-3 .marksf-wrap.marksf-flipped,
+.page-4 .marksf-wrap.marksf-flipped,
+.page-5 .marksf-wrap.marksf-flipped,
+.page-6 .marksf-wrap.marksf-flipped {
+  left: 430px;
+  top: 325px;
+}
+
+.page-6 .marksf-wrap.marksf-original {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+/* Headline blocks — independently positioned, Space Grotesk Bold */
+.headline-block {
+  position: absolute;
+  right: clamp(1.5rem, 5vw, 4rem);
+  top: 50%;
+  z-index: 15;
+  margin: 0;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: clamp(2.5rem, 8vw, 7.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-align: left;
+  color: #fff;
+  transform: translate(-300px, -50%);
+}
+
+.headline-block.headline-focus {
+  color: #FFBC00;
+  transform: translate(-100px, calc(-50% + 300px));
+}
+
+/* When focus is inside the group, positioning comes from the group */
+.headline-marksf-group .headline-block.headline-focus {
+  position: static;
+  transform: translateX(100px);
+  right: auto;
+  top: auto;
+}
+
+/* Page 2+ body text — same general area as headline, readable width */
+.page-text {
+  position: absolute;
+  right: clamp(1.5rem, 5vw, 4rem);
+  top: 50%;
+  transform: translateY(calc(-50% + 150px));
+  margin: 0;
+  max-width: min(800px, 90vw);
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+  color: rgba(255, 255, 255, 0.95);
+  z-index: 15;
+}
+
+/* Page 4 block: same position as .page-text, multiple paragraphs */
+.page-text-block {
+  position: absolute;
+  right: clamp(1.5rem, 5vw, 4rem);
+  top: 50%;
+  transform: translateY(calc(-50% + 250px));
+  margin: 0;
+  max-width: min(800px, 90vw);
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 22px;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+  z-index: 15;
+}
+
+.page-text-lead {
+  font-size: 22px;
+  color: #FFBC00;
+  font-weight: 700;
+  margin: 0 0 1.2em 0;
+}
+
+.page-text-block .page-text {
+  position: static;
+  transform: none;
+  margin: 0 0 1.4em 0;
+  font-size: 22px;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.page-text-block .page-text:last-child {
+  margin-bottom: 0;
+}
+
+/* Page 4: text block 10px lower than default */
+.page-4 .page-text-block {
+  transform: translateY(calc(-50% + 260px));
+}
+
+/* Page 5: text block 25px higher than page 4 */
+.page-5 .page-text-block {
+  transform: translateY(calc(-50% + 225px));
+}
+
+/* Page 6: headline left, contact bottom right */
+.page6-headline {
+  position: absolute;
+  left: clamp(1.5rem, 5vw, 4rem);
+  top: 50%;
+  transform: translateY(calc(-50% - 20px));
+  margin: 0;
+  max-width: min(900px, 70vw);
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 135px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: #fff;
+  text-align: left;
+  z-index: 15;
+}
+
+.page6-highlight {
+  color: #FFBC00;
+}
+
+.page6-contact {
+  position: absolute;
+  right: clamp(1.5rem, 5vw, 4rem);
+  bottom: calc(clamp(2rem, 6vh, 4rem) + 10px);
+  text-align: left;
+  max-width: 420px;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.95);
+  z-index: 15;
+}
+
+.page6-contact p:first-of-type {
+  font-size: 22px;
+  margin: 0 0 0.5em 0;
+}
+
+.page6-contact p {
+  margin: 0 0 0.5em 0;
+}
+
+.page6-contact-btn {
+  display: inline-block;
+  margin-top: 1em;
+  padding: 0.75em 1.5em;
+  background: #FFBC00;
+  color: #000;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.page6-contact-btn:hover {
+  filter: brightness(1.1);
+}
+
+/* Page 6: hide left image so only gradient shows */
+body.page-6-active .left-fixed .handholding-wrap {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+body:not(.page-6-active) .left-fixed .handholding-wrap {
+  transition: opacity 0.3s ease;
+}

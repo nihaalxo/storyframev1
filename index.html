@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Storyframe World — Page 1 of 6</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Creates scroll height: 6 pages -->
+  <div class="scroll-viewport" id="scrollViewport">
+    <div class="scroll-page" aria-hidden="true"></div>
+    <div class="scroll-page" aria-hidden="true"></div>
+    <div class="scroll-page" aria-hidden="true"></div>
+    <div class="scroll-page" aria-hidden="true"></div>
+    <div class="scroll-page" aria-hidden="true"></div>
+    <div class="scroll-page" aria-hidden="true"></div>
+  </div>
+
+  <!-- Top bar: logo top right; hover zone for nav on pages 2–6 -->
+  <div class="top-bar">
+    <div class="logo-wrap">
+      <img src="logowhite.png" alt="StoryFrame" class="logo-img" />
+    </div>
+    <div class="top-hover-zone" aria-hidden="true">
+      <nav class="nav-fixed">
+        <a href="#" class="nav-fixed-link nav-fixed-home">Home</a>
+        <a href="#" class="nav-fixed-link">Contact us</a>
+        <a href="#" class="nav-fixed-link">About us</a>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Left: gradient + image stay fixed (update in place per page later) -->
+  <div class="left-fixed">
+    <div class="gradient-bg">
+      <div class="gradient-layer gradient-base" aria-hidden="true"></div>
+      <div class="gradient-layer gradient-1" aria-hidden="true"></div>
+      <div class="gradient-layer gradient-2" aria-hidden="true"></div>
+      <div class="gradient-layer gradient-3" aria-hidden="true"></div>
+    </div>
+    <div class="handholding-wrap">
+      <img src="phonepg1.png" alt="" class="handholding-img handholding-phone handholding-phone-pg1" />
+      <img src="phonepg2.png" alt="" class="handholding-img handholding-phone handholding-phone-pg2" />
+      <img src="phonepg3.png" alt="" class="handholding-img handholding-phone handholding-phone-pg3" />
+      <img src="hand.png" alt="" class="handholding-img handholding-hand" />
+    </div>
+    <div class="video-wrap" id="storyframeVideoWrap" aria-hidden="true">
+      <video id="storyframeVideo" class="video-pg45" playsinline muted>
+        <source src="tobeedited.webm" type="video/webm" />
+      </video>
+    </div>
+  </div>
+
+  <!-- Right: text strip that scrolls with page -->
+  <div class="right-window">
+    <div class="content-strip" id="contentStrip">
+      <!-- Page 1 -->
+      <section class="page page-1" data-page="1">
+        <nav class="page1-nav">
+          <a href="#" class="page1-nav-link page1-nav-home">Home</a>
+          <a href="#" class="page1-nav-link">Contact us</a>
+          <a href="#" class="page1-nav-link">About us</a>
+        </nav>
+        <div class="headline-marksf-group">
+          <div class="marksf-cell">
+            <div class="marksf-wrap marksf-original">
+              <img src="marksf.png" alt="" class="marksf-img" />
+            </div>
+            <div class="marksf-wrap marksf-flipped">
+              <img src="marksf.png" alt="" class="marksf-img" />
+            </div>
+          </div>
+          <div class="headline-block headline-focus">focus</div>
+        </div>
+        <div class="headline-block headline-intro">Bringing<br>events into</div>
+      </section>
+
+      <!-- Page 2 -->
+      <section class="page page-2" data-page="2">
+        <div class="headline-marksf-group">
+          <div class="marksf-cell">
+            <div class="marksf-wrap marksf-original">
+              <img src="marksf.png" alt="" class="marksf-img" />
+            </div>
+            <div class="marksf-wrap marksf-flipped">
+              <img src="marksf.png" alt="" class="marksf-img" />
+            </div>
+          </div>
+        </div>
+        <p class="page-text">
+          Every live event is full of meaning, but most spectators miss the story behind the moment. <strong>StoryFrame</strong> brings those stories into focus through simple branded QR code touchpoints placed strategically around venues.
+        </p>
+      </section>
+
+      <!-- Page 3 -->
+      <section class="page page-3" data-page="3">
+        <div class="headline-marksf-group">
+          <div class="marksf-cell">
+            <div class="marksf-wrap marksf-original">
+              <img src="marksf.png" alt="" class="marksf-img" />
+            </div>
+            <div class="marksf-wrap marksf-flipped">
+              <img src="marksf.png" alt="" class="marksf-img" />
+            </div>
+          </div>
+        </div>
+        <p class="page-text">
+          <strong>StoryFrame</strong> delivers fast, beautifully crafted micro-stories that explain why each moment matters. We transform passive watching into deeper understanding, turning curiosity into emotional connection.
+        </p>
+      </section>
+
+      <!-- Page 4 -->
+      <section class="page page-4" data-page="4">
+        <div class="headline-marksf-group">
+          <div class="marksf-cell">
+            <div class="marksf-wrap marksf-original">
+              <img src="marksf.png" alt="" class="marksf-img" />
+            </div>
+            <div class="marksf-wrap marksf-flipped">
+              <img src="marksf.png" alt="" class="marksf-img" />
+            </div>
+          </div>
+        </div>
+        <div class="page-text-block">
+          <p class="page-text-lead">Blink and you'll miss it. Scan and you'll get it.</p>
+          <p class="page-text"><strong>StoryFrame</strong> transforms live moments into instant understanding. Branded QR touchpoints placed around a venue allow spectators to scan and unlock fast, mobile-friendly micro-stories explaining the athletes, rules, rivalries and stakes behind the action with no app required. Content is delivered through a lightweight microsite and CMS, enabling real-time updates and seamless sponsor integration.</p>
+          <p class="page-text">Every interaction is measurable. <strong>StoryFrame</strong> provides scan data, location insights and engagement analytics, creating new digital inventory and commercial opportunities for venues and rights-holders. It's scalable, easy to deploy and designed to enhance the live experience without adding operational complexity.</p>
+        </div>
+      </section>
+
+      <!-- Page 5 -->
+      <section class="page page-5" data-page="5">
+        <div class="headline-marksf-group">
+          <div class="marksf-cell">
+            <div class="marksf-wrap marksf-original">
+              <img src="marksf.png" alt="" class="marksf-img" />
+            </div>
+            <div class="marksf-wrap marksf-flipped">
+              <img src="marksf.png" alt="" class="marksf-img" />
+            </div>
+          </div>
+        </div>
+        <div class="page-text-block">
+          <p class="page-text-lead">We reveal the story behind every moment.</p>
+          <p class="page-text"><strong>StoryFrame</strong> overlays the entire event journey, turning queues, pauses and in-play moments into opportunities for deeper connection. It simplifies, introduces backstories and highlights why each moment matters, helping first-time visitors feel confident and seasoned fans feel closer to the action.</p>
+          <p class="page-text">By combining physical signage, mobile-first design and intuitive content management, <strong>StoryFrame</strong> creates a richer spectator experience and a powerful storytelling platform for events. When you frame the story, you amplify the experience.</p>
+        </div>
+      </section>
+
+      <!-- Page 6: headline left, contact bottom right -->
+      <section class="page page-6" data-page="6">
+        <div class="headline-marksf-group">
+          <div class="marksf-cell">
+            <div class="marksf-wrap marksf-original">
+              <img src="marksf.png" alt="" class="marksf-img" />
+            </div>
+            <div class="marksf-wrap marksf-flipped">
+              <img src="marksf.png" alt="" class="marksf-img" />
+            </div>
+          </div>
+        </div>
+        <h2 class="page6-headline">
+          When you <span class="page6-highlight">frame the story</span>, everything becomes more meaningful
+        </h2>
+        <div class="page6-contact">
+          <p>Get in touch to find out how <u>StoryFrame</u> can elevate your event.</p>
+          <a href="mailto:chrisgirling@trivandi.com" class="page6-contact-btn">Contact us</a>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script src="scroll.js"></script>
+</body>
+</html>
