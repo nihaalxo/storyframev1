@@ -142,8 +142,11 @@ body:not(.past-page-1) .nav-fixed {
   --scale: max(0.4, min(var(--scale-w), var(--scale-h)));
   position: fixed;
   inset: 0;
+  width: 100%;
+  height: 100vh;
+  min-height: 100vh;
   z-index: 2;
-  overflow: hidden;
+  overflow: visible;
   pointer-events: none;
   transform-origin: center right;
   transform: scale(var(--scale));
@@ -162,11 +165,18 @@ body:not(.past-page-1) .nav-fixed {
   will-change: transform;
 }
 
-/* Each page is one viewport height */
+/* Each page is one viewport height; overflow visible so content isn't cut off */
 .page {
   min-height: 100vh;
+  height: 100vh;
   position: relative;
   box-sizing: border-box;
+  overflow: visible;
+}
+
+/* Page in view gets higher z-index so its content (including overflow) isn't hidden under the next section */
+.page.page-in-view {
+  z-index: 10;
 }
 
 .gradient-bg {

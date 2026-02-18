@@ -41,6 +41,17 @@ function updatePastPage3() {
   document.body.classList.toggle("past-page-3", pastPage3);
 }
 
+function updatePageInView() {
+  if (!contentStrip || pageHeight <= 0) return;
+  var y = getScrollY();
+  var pageIndex = Math.round(y / pageHeight);
+  pageIndex = Math.max(0, Math.min(5, pageIndex));
+  var pages = contentStrip.querySelectorAll(".page");
+  for (var i = 0; i < pages.length; i++) {
+    pages[i].classList.toggle("page-in-view", i === pageIndex);
+  }
+}
+
 function updateVideo() {
   var video = document.getElementById("storyframeVideo");
   if (!video) return;
@@ -70,19 +81,35 @@ function onScroll() {
     updatePastPage1();
     updatePastPage2();
     updatePastPage3();
+    updatePageInView();
     updateVideo();
   });
 }
 
-var wheelSensitivity = 2.5;
+/** One scroll gesture = one page (fixes Mac trackpad jumping through multiple sections) */
+var wheelCooldownUntil = 0;
+var wheelCooldownMs = 500;
 
 function onWheel(e) {
-  if (!scrollViewport) return;
+  if (!scrollViewport || !pageHeight) return;
   var el = e.target;
   while (el && el !== scrollViewport) el = el.parentNode;
   if (el === scrollViewport) return;
-  scrollViewport.scrollTop += e.deltaY * wheelSensitivity;
   e.preventDefault();
+
+  var now = typeof performance !== "undefined" ? performance.now() : Date.now();
+  if (now < wheelCooldownUntil) return;
+
+  var y = scrollViewport.scrollTop;
+  var currentPage = Math.round(y / pageHeight);
+  currentPage = Math.max(0, Math.min(5, currentPage));
+  var nextPage = e.deltaY > 0 ? currentPage + 1 : currentPage - 1;
+  nextPage = Math.max(0, Math.min(5, nextPage));
+  if (nextPage === currentPage) return;
+
+  var targetScroll = nextPage * pageHeight;
+  scrollViewport.scrollTo({ top: targetScroll, behavior: "smooth" });
+  wheelCooldownUntil = now + wheelCooldownMs;
 }
 
 var snapTimeout = null;
@@ -120,6 +147,7 @@ function init() {
     updatePastPage1();
     updatePastPage2();
     updatePastPage3();
+    updatePageInView();
     updateVideo();
   }
   var video = document.getElementById("storyframeVideo");
