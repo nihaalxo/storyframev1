@@ -94,13 +94,21 @@ body {
   pointer-events: none;
 }
 
+body.past-page-1 .nav-fixed {
+  opacity: 0;
+  pointer-events: none;
+}
+
 body.past-page-1 .top-hover-zone:hover .nav-fixed {
   opacity: 1;
   pointer-events: auto;
 }
 
+/* Page 1: nav visible (independent of right-window scale); pages 2–6: show on hover */
 body:not(.past-page-1) .nav-fixed {
-  display: none;
+  display: flex;
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .nav-fixed-link {
@@ -137,7 +145,7 @@ body:not(.past-page-1) .nav-fixed {
   z-index: 2;
   overflow: hidden;
   pointer-events: none;
-  transform-origin: top right;
+  transform-origin: center right;
   transform: scale(var(--scale));
 }
 
@@ -261,11 +269,11 @@ body:not(.past-page-1) .nav-fixed {
   );
 }
 
-/* Stacked images — bottom-left, same spot, phone then hand on top */
+/* Stacked images — left, vertically centered (mirrors right section: middle + edge) */
 .handholding-wrap {
   position: absolute;
   left: 0;
-  bottom: 0;
+  top: 0;
   width: 100vw;
   height: 100vh;
   z-index: 10;
@@ -275,13 +283,14 @@ body:not(.past-page-1) .nav-fixed {
 .handholding-img {
   position: absolute;
   left: 0;
-  bottom: 0;
+  top: 50%;
+  transform: translateY(-50%);
   max-width: 100%;
   max-height: 100%;
   width: auto;
   height: auto;
   object-fit: contain;
-  object-position: left bottom;
+  object-position: left center;
   display: block;
 }
 
@@ -319,12 +328,12 @@ body.past-page-2 .handholding-phone-pg3 {
 .handholding-hand {
   z-index: 1;
   transition: opacity 0.4s ease, transform 0.4s ease;
-  transform-origin: left bottom;
+  transform-origin: left center;
 }
 
 body.past-page-3 .handholding-hand {
   opacity: 0;
-  transform: scale(0.6);
+  transform: translateY(-50%) scale(0.6);
 }
 
 body.past-page-3 .handholding-phone-pg3 {
@@ -332,17 +341,17 @@ body.past-page-3 .handholding-phone-pg3 {
   pointer-events: none;
 }
 
-/* Video on pages 4 & 5: same spot as phone, hidden on page 6 */
+/* Video on pages 4 & 5: left, vertically centered (mirrors right section), hidden on page 6 */
 .video-wrap {
   position: absolute;
   left: 0;
-  bottom: 0;
+  top: 0;
   width: 100vw;
   height: 100vh;
   z-index: 11;
   pointer-events: none;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: flex-start;
   opacity: 0;
   visibility: hidden;
@@ -365,35 +374,7 @@ body.page-6-active .video-wrap {
   width: auto;
   height: auto;
   object-fit: contain;
-  object-position: left bottom;
-}
-
-/* Page 1: top nav — Home bold & yellow */
-.page1-nav {
-  position: absolute;
-  top: calc(clamp(1.5rem, 4vh, 2.5rem) - 15px);
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 1.75rem;
-  z-index: 20;
-}
-
-.page1-nav-link {
-  font-family: "Space Grotesk", sans-serif;
-  font-weight: 400;
-  font-size: 22px;
-  color: rgba(255, 255, 255, 0.9);
-  text-decoration: none;
-}
-
-.page1-nav-link:hover {
-  color: #FFBC00;
-}
-
-.page1-nav-home {
-  font-weight: 700;
-  color: #FFBC00;
+  object-position: left center;
 }
 
 /* Group: anchor to same right/top as focus; keeps marks + focus locked together on resize */
@@ -564,28 +545,7 @@ body.page-6-active .video-wrap {
   transform: translateY(calc(-50% + 225px));
 }
 
-/* Page 6: headline left, contact bottom right */
-.page6-headline {
-  position: absolute;
-  left: clamp(1.5rem, 5vw, 4rem);
-  top: 50%;
-  transform: translateY(calc(-50% - 20px));
-  margin: 0;
-  max-width: min(900px, 70vw);
-  font-family: "Space Grotesk", sans-serif;
-  font-weight: 700;
-  font-size: 135px;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-  color: #fff;
-  text-align: left;
-  z-index: 15;
-}
-
-.page6-highlight {
-  color: #FFBC00;
-}
-
+/* Page 6: contact stays in right section */
 .page6-contact {
   position: absolute;
   right: clamp(1.5rem, 5vw, 4rem);
@@ -625,6 +585,50 @@ body.page-6-active .video-wrap {
 
 .page6-contact-btn:hover {
   filter: brightness(1.1);
+}
+
+/* Page 6: headline in left-fixed (same scaling as PNGs), not in right-window */
+.page6-headline-wrap {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 50vw;
+  height: 100vh;
+  z-index: 12;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  display: flex;
+  align-items: center;
+  padding-left: clamp(1.5rem, 5vw, 4rem);
+  box-sizing: border-box;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+body.page-6-active .page6-headline-wrap {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Same scaling as left PNGs: contain in viewport (left half). Unitless: length/length */
+.page6-headline-wrap .page6-headline {
+  margin: 0;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 135px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: #fff;
+  text-align: left;
+  max-width: 900px;
+  --headline-available-w: calc(50vw - clamp(1.5rem, 5vw, 4rem));
+  --headline-scale: min(1, var(--headline-available-w) / 900px, 100vh / 900px);
+  transform: scale(var(--headline-scale));
+  transform-origin: left center;
+}
+
+.page6-headline-wrap .page6-highlight {
+  color: #FFBC00;
 }
 
 /* Page 6: hide left image so only gradient shows */
