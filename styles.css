@@ -646,7 +646,7 @@ body.page-6-active .page6-headline-wrap {
   max-width: 900px;
   --headline-available-w: calc(50vw - clamp(1.5rem, 5vw, 4rem));
   --headline-scale: min(1, var(--headline-available-w) / 900px, 100vh / 900px);
-  transform: scale(var(--headline-scale));
+  transform: scale(calc(var(--headline-scale) * 0.9));
   transform-origin: left center;
 }
 

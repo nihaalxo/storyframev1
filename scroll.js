@@ -89,7 +89,7 @@ function onScroll() {
 /** One scroll gesture = one page (Mac trackpad: only first event in a burst moves; unblock after gesture ends) */
 var wheelBlocked = false;
 var wheelUnblockTimer = null;
-var wheelUnblockDelayMs = 700;
+var wheelUnblockDelayMs = 250;
 
 function onWheel(e) {
   if (!scrollViewport || !pageHeight) return;
