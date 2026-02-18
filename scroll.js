@@ -128,6 +128,20 @@ function init() {
   }
   document.addEventListener("wheel", onWheel, { passive: false });
   window.addEventListener("resize", function () { pageHeight = window.innerHeight; });
+
+  /* Touch: forward touch scroll to viewport so mobile can scroll */
+  var touchStartY = 0;
+  document.addEventListener("touchstart", function (e) {
+    if (e.touches.length) touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+  document.addEventListener("touchmove", function (e) {
+    if (!scrollViewport || !e.touches.length) return;
+    var y = e.touches[0].clientY;
+    var delta = (touchStartY - y) * 2;
+    touchStartY = y;
+    scrollViewport.scrollTop += delta;
+    e.preventDefault();
+  }, { passive: false });
 }
 
 if (document.readyState === "loading") {
