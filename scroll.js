@@ -86,9 +86,10 @@ function onScroll() {
   });
 }
 
-/** One scroll gesture = one page (fixes Mac trackpad jumping through multiple sections) */
-var wheelCooldownUntil = 0;
-var wheelCooldownMs = 500;
+/** One scroll gesture = one page (Mac trackpad: only first event in a burst moves; unblock after gesture ends) */
+var wheelBlocked = false;
+var wheelUnblockTimer = null;
+var wheelUnblockDelayMs = 700;
 
 function onWheel(e) {
   if (!scrollViewport || !pageHeight) return;
@@ -97,8 +98,13 @@ function onWheel(e) {
   if (el === scrollViewport) return;
   e.preventDefault();
 
-  var now = typeof performance !== "undefined" ? performance.now() : Date.now();
-  if (now < wheelCooldownUntil) return;
+  if (wheelBlocked) {
+    clearTimeout(wheelUnblockTimer);
+    wheelUnblockTimer = setTimeout(function () {
+      wheelBlocked = false;
+    }, wheelUnblockDelayMs);
+    return;
+  }
 
   var y = scrollViewport.scrollTop;
   var currentPage = Math.round(y / pageHeight);
@@ -109,7 +115,11 @@ function onWheel(e) {
 
   var targetScroll = nextPage * pageHeight;
   scrollViewport.scrollTo({ top: targetScroll, behavior: "smooth" });
-  wheelCooldownUntil = now + wheelCooldownMs;
+  wheelBlocked = true;
+  clearTimeout(wheelUnblockTimer);
+  wheelUnblockTimer = setTimeout(function () {
+    wheelBlocked = false;
+  }, wheelUnblockDelayMs);
 }
 
 var snapTimeout = null;

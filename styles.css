@@ -174,8 +174,16 @@ body:not(.past-page-1) .nav-fixed {
   overflow: visible;
 }
 
+/* Only the page in view is visible; others are hidden so we don't see page 4 when on page 5 */
+.page:not(.page-in-view) {
+  visibility: hidden;
+  pointer-events: none;
+}
+
 /* Page in view gets higher z-index so its content (including overflow) isn't hidden under the next section */
 .page.page-in-view {
+  visibility: visible;
+  pointer-events: auto;
   z-index: 10;
 }
 
@@ -457,6 +465,10 @@ body.page-6-active .video-wrap {
 .page-6 .marksf-wrap.marksf-flipped {
   left: 430px;
   top: 325px;
+}
+
+.page-6 .marksf-wrap.marksf-flipped {
+  top: 425px;
 }
 
 .page-6 .marksf-wrap.marksf-original {
